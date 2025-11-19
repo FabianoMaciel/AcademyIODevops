@@ -24,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\building-blocks\AcademyIODevops.Core\AcademyIODevops.Core.csproj" />
     <ProjectReference Include="..\..\building-blocks\AcademyIODevops.WebAPI.Core\AcademyIODevops.WebAPI.Core.csproj" />
-    <ProjectReference Include="..\AcademyIODevops.Courses.API\AcademyIODevops.Courses.API.csproj" />
   </ItemGroup>
 
 </Project>

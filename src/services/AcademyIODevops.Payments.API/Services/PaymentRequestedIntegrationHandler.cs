@@ -1,5 +1,4 @@
 ﻿using AcademyIODevops.Core.Messages.Integration;
-using AcademyIODevops.Courses.API.Application.Commands;
 using AcademyIODevops.MessageBus;
 using FluentValidation.Results;
 using MediatR;
