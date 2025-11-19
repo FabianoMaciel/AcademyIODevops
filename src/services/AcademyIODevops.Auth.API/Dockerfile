@@ -1,55 +1,31 @@
-# --------------------------
-# 1. Base runtime
-# --------------------------
+# Stage 1: runtime base
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5077
 
-# Define URLs padrão para Kestrel
-ENV ASPNETCORE_URLS=http://+:80;https://+:443
-ENV DOTNET_RUNNING_IN_CONTAINER=true
-
-# --------------------------
-# 2. Build
-# --------------------------
+# Stage 2: build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copia solution e projetos
-COPY *.sln ./
-COPY src/ src/
+# Copia apenas os csproj primeiro para aproveitar cache do restore
+COPY src/services/AcademyIODevops.Auth.API/AcademyIODevops.Auth.API.csproj src/services/AcademyIODevops.Auth.API/
+COPY src/building-blocks/AcademyIODevops.WebAPI.Core/AcademyIODevops.WebAPI.Core.csproj src/building-blocks/AcademyIODevops.WebAPI.Core/
+COPY src/building-blocks/AcademyIODevops.Core/AcademyIODevops.Core.csproj src/building-blocks/AcademyIODevops.Core/
+COPY src/building-blocks/AcademyIODevops.MessageBus/AcademyIODevops.MessageBus.csproj src/building-blocks/AcademyIODevops.MessageBus/
 
-# Restaura dependências
+# Restaura pacotes
 RUN dotnet restore "src/services/AcademyIODevops.Auth.API/AcademyIODevops.Auth.API.csproj"
 
-# Build
-RUN dotnet build "src/services/AcademyIODevops.Auth.API/AcademyIODevops.Auth.API.csproj" -c Release -o /app/build
+# Copia todo o código fonte
+COPY src/ .
 
-# --------------------------
-# 3. Publish
-# --------------------------
-FROM build AS publish
-RUN dotnet publish "src/services/AcademyIODevops.Auth.API/AcademyIODevops.Auth.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+# Build e publish no mesmo stage
+WORKDIR /src/services/AcademyIODevops.Auth.API
+RUN dotnet publish "AcademyIODevops.Auth.API.csproj" -c Release -o /app/publish
 
-# --------------------------
-# 4. Final
-# --------------------------
+# Stage 3: container final
 FROM base AS final
+ENV ASPNETCORE_URLS="http://+:5077"
 WORKDIR /app
-
-# Cria diretório de certificados
-RUN mkdir -p /root/.aspnet/https
-
-# Copia certificado da máquina local para dentro do container
-COPY ./src/certs/AcademyIODevops-auth.pfx /root/.aspnet/https/AcademyIODevops-auth.pfx
-
-# Configura variáveis de ambiente do Kestrel
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/AcademyIODevops-auth.pfx
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password=senha123
-
-# Copia arquivos publicados da build
-COPY --from=publish /app/publish .
-
-# Define entrypoint
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "AcademyIODevops.Auth.API.dll"]
