@@ -50,7 +50,7 @@ services:
       - "5077:5077"
     environment:
       ASPNETCORE_URLS: http://+:5077
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       
       # Database Configuration
       DatabaseType: SqlServer
@@ -76,7 +76,7 @@ services:
       - "5078:5078"
     environment:
       ASPNETCORE_URLS: http://+:5078
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       
       # Database Configuration
       DatabaseType: SqlServer
@@ -102,7 +102,7 @@ services:
       - "5272:5272"
     environment:
       ASPNETCORE_URLS: http://+:5272
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       
       # Database Configuration
       DatabaseType: SqlServer
@@ -128,7 +128,7 @@ services:
       - "5275:5275"
     environment:
       ASPNETCORE_URLS: http://+:5275
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       
       # Database Configuration
       DatabaseType: SqlServer
@@ -154,7 +154,7 @@ services:
       - "5107:5107"
     environment:
       ASPNETCORE_URLS: http://+:5107
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Docker
       
       # Services URLs (comunicação interna)
       AppServicesSettings__CourseUrl: "http://courses-api:5078"
