@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AcademyIODevops.Courses.API.Data
+namespace AcademyIODevops.Courses.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialSqlServer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,13 @@ namespace AcademyIODevops.Courses.API.Data
                 name: "Courses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true),
-                    Price = table.Column<double>(type: "REAL", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Deleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,14 +32,14 @@ namespace AcademyIODevops.Courses.API.Data
                 name: "Lessons",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true),
-                    Subject = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
-                    TotalHours = table.Column<double>(type: "REAL", nullable: false),
-                    CourseId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Deleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Subject = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    TotalHours = table.Column<double>(type: "float", nullable: false),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,13 +56,13 @@ namespace AcademyIODevops.Courses.API.Data
                 name: "ProgressLessons",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    StudentId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    LessonId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProgressionStatus = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Deleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProgressionStatus = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

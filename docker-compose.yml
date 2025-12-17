@@ -1,0 +1,183 @@
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-academyio
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "AcademyIO!Password"
+      MSSQL_PID: "Developer"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "AcademyIO!Password" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - academyio
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbit-academyio
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - academyio
+
+  auth-api:
+    build:
+      context: .
+      dockerfile: src/services/AcademyIODevops.Auth.API/Dockerfile
+    container_name: auth-api
+    ports:
+      - "5077:5077"
+    environment:
+      ASPNETCORE_URLS: http://+:5077
+      ASPNETCORE_ENVIRONMENT: Development
+      
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Auth;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+      
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - academyio
+
+  courses-api:
+    build:
+      context: .
+      dockerfile: src/services/AcademyIODevops.Courses.API/Dockerfile
+    container_name: courses-api
+    ports:
+      - "5078:5078"
+    environment:
+      ASPNETCORE_URLS: http://+:5078
+      ASPNETCORE_ENVIRONMENT: Development
+      
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Courses;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+      
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - academyio
+
+  payments-api:
+    build:
+      context: .
+      dockerfile: src/services/AcademyIODevops.Payments.API/Dockerfile
+    container_name: payments-api
+    ports:
+      - "5272:5272"
+    environment:
+      ASPNETCORE_URLS: http://+:5272
+      ASPNETCORE_ENVIRONMENT: Development
+      
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Payments;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+      
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - academyio
+
+  students-api:
+    build:
+      context: .
+      dockerfile: src/services/AcademyIODevops.Students.API/Dockerfile
+    container_name: students-api
+    ports:
+      - "5275:5275"
+    environment:
+      ASPNETCORE_URLS: http://+:5275
+      ASPNETCORE_ENVIRONMENT: Development
+      
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Students;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+      
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - academyio
+
+  bff:
+    build:
+      context: .
+      dockerfile: src/api-gateways/AcademyIODevops.Bff/Dockerfile
+    container_name: bff-api
+    ports:
+      - "5107:5107"
+    environment:
+      ASPNETCORE_URLS: http://+:5107
+      ASPNETCORE_ENVIRONMENT: Development
+      
+      # Services URLs (comunicação interna)
+      AppServicesSettings__CourseUrl: "http://courses-api:5078"
+      AppServicesSettings__StudentUrl: "http://students-api:5275"
+      AppServicesSettings__PaymentUrl: "http://payments-api:5272"
+      AppServicesSettings__AuthUrl: "http://auth-api:5077"
+    depends_on:
+      auth-api:
+        condition: service_started
+      courses-api:
+        condition: service_started
+      students-api:
+        condition: service_started
+      payments-api:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - academyio
+
+networks:
+  academyio:
+    driver: bridge
+
+volumes:
+  sqlserver_data:
+  rabbitmq_data:
