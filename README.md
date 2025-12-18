@@ -1,6 +1,6 @@
-## 🏦 AcademyIO – Plataforma de Educação Online
+## 🏦 AcademyIODevops – Plataforma de Educação Online
 
-Bem-vindo ao **AcademyIO**, um projeto desenvolvido no **MBA DevXpert Full Stack .NET** (Módulo 4) com foco em arquitetura moderna, escalabilidade e boas práticas de desenvolvimento.  
+Bem-vindo ao **AcademyIO**, um projeto desenvolvido no **MBA DevXpert Full Stack .NET** (Módulo 5) com foco em arquitetura moderna, escalabilidade e boas práticas de desenvolvimento.  
 O AcademyIO é uma plataforma de ensino digital que permite aos usuários gerenciar cursos, matrículas, pagamentos e certificados por meio de uma **API RESTful robusta, segura e bem documentada**.
 
 ---
@@ -20,11 +20,6 @@ Construído com uma abordagem baseada em microsserviços e princípios de **Doma
 ### 👥 Equipe de Desenvolvimento
 
 - Fabiano Marcolin Maciel
-- Breno Francisco Morais
-- Caio Gustavo Rodrigues
-- Luis Felipe da Silva Sousa
-- Thiago Albuquerque Severo
-- Viliane Oliveira
 
 ---
 
@@ -34,10 +29,11 @@ Construído com uma abordagem baseada em microsserviços e princípios de **Doma
 
 - C# 12
 - ASP.NET Core Web API (.NET 8.0)
-- Entity Framework Core 8.0.10
+- Entity Framework Core 8.0.22
 - SQL Server / SQLite
 - ASP.NET Core Identity + JWT
 - RabbitMQ (comunicação assíncrona via message bus)
+- Docker
 
 **Documentação:**
 
