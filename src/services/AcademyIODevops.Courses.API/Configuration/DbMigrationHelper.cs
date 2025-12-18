@@ -1,14 +1,15 @@
 ﻿using AcademyIODevops.Courses.API.Data;
 using AcademyIODevops.Courses.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 
 namespace AcademyIODevops.Courses.API.Configuration
 {
     public static class DbMigrationHelperExtension
     {
-        public static void UseDbMigrationHelper(this WebApplication app)
+        public static async Task UseDbMigrationHelperAsync(this WebApplication app)
         {
-            DbMigrationHelper.EnsureSeedData(app).Wait();
+            await DbMigrationHelper.EnsureSeedData(app);
         }
     }
 
@@ -27,11 +28,8 @@ namespace AcademyIODevops.Courses.API.Configuration
 
             var courseContext = scope.ServiceProvider.GetRequiredService<CoursesContext>();
 
-            if (env.IsDevelopment())
-            {
-                await courseContext.Database.MigrateAsync();
-                await EnsureSeedData(courseContext);
-            }
+            await courseContext.Database.MigrateAsync();
+            await EnsureSeedData(courseContext);
         }
 
         private static async Task EnsureSeedData(CoursesContext courseContext)

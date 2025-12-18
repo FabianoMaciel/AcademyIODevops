@@ -20,7 +20,7 @@ var app = builder.Build();
 
 app.UseSwaggerSetup();
 app.UseApiCoreConfiguration(app.Environment);
-app.UseDbMigrationHelper();
+app.UseDbMigrationHelperAsync();
 
 app.Run();
 

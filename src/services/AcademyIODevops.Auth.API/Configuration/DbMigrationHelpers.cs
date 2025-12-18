@@ -7,9 +7,9 @@ namespace AcademyIODevops.Auth.API.Configuration
 {
     public static class DbMigrationHelpers
     {
-        public static void UseDbMigrationHelper(this WebApplication app)
+        public static async Task UseDbMigrationHelperAsync(this WebApplication app)
         {
-            EnsureSeedData(app).Wait();
+            await EnsureSeedData(app);
         }
 
         public static async Task EnsureSeedData(WebApplication application)
@@ -24,15 +24,10 @@ namespace AcademyIODevops.Auth.API.Configuration
             var contextIdentity = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
 
-            if (env.IsDevelopment() || env.IsEnvironment("Testing"))
-            {
-                await contextIdentity.Database.EnsureDeletedAsync();
+            await contextIdentity.Database.EnsureDeletedAsync();
 
-                await contextIdentity.Database.MigrateAsync();
-                await SeedUsersAndRoles(contextIdentity);
-
-            }
-
+            await contextIdentity.Database.MigrateAsync();
+            await SeedUsersAndRoles(contextIdentity);
         }
 
         private static async Task SeedUsersAndRoles(ApplicationDbContext contextIdentity)

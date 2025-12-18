@@ -31,6 +31,6 @@ app.UseSwaggerSetup();
 app.UseApiConfiguration(app.Environment);
 
 
-app.UseDbMigrationHelper();
+app.UseDbMigrationHelperAsync();
 
 app.Run();
