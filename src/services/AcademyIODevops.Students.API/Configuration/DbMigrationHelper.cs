@@ -7,9 +7,9 @@ namespace AcademyIODevops.Students.API.Configuration
 {
     public static class DbMigrationHelperExtension
     {
-        public static void UseDbMigrationHelper(this WebApplication app)
+        public static async Task UseDbMigrationHelperAsync(this WebApplication app)
         {
-            DbMigrationHelper.EnsureSeedData(app).Wait();
+            await DbMigrationHelper.EnsureSeedData(app);
         }
     }
 
@@ -28,11 +28,8 @@ namespace AcademyIODevops.Students.API.Configuration
 
             var studentsContext = scope.ServiceProvider.GetRequiredService<StudentsContext>();
 
-            if (env.IsDevelopment())
-            {
-                await studentsContext.Database.MigrateAsync();
-                await EnsureSeedData(studentsContext);
-            }
+            await studentsContext.Database.MigrateAsync();
+            await EnsureSeedData(studentsContext);
         }
 
         private static async Task EnsureSeedData(StudentsContext studentsContext)

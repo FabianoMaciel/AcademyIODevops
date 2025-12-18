@@ -7,9 +7,9 @@ namespace AcademyIODevops.Payments.API.Configuration
 {
     public static class DbMigrationHelperExtension
     {
-        public static void UseDbMigrationHelper(this WebApplication app)
+        public static async Task UseDbMigrationHelperAsync(this WebApplication app)
         {
-            DbMigrationHelper.EnsureSeedData(app).Wait();
+            await DbMigrationHelper.EnsureSeedData(app);
         }
     }
 
@@ -27,11 +27,8 @@ namespace AcademyIODevops.Payments.API.Configuration
             var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             var paymentsContext = scope.ServiceProvider.GetRequiredService<PaymentsContext>();
 
-            if (env.IsDevelopment())
-            {
-                await paymentsContext.Database.MigrateAsync();
-                await EnsureSeedData(paymentsContext);
-            }
+            await paymentsContext.Database.MigrateAsync();
+            await EnsureSeedData(paymentsContext);
         }
 
         private static async Task EnsureSeedData(PaymentsContext paymentsContext)
