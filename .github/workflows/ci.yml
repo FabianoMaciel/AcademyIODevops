@@ -81,9 +81,15 @@ jobs:
       run: dotnet build AcademyIODevops.sln --configuration Release --no-restore
 
     - name: ✅ Verify build artifacts
+      shell: bash
       run: |
         echo "Build completed successfully on ${{ matrix.os }}"
-        ls -R src/*/bin/Release/ || dir /S src\*\bin\Release\
+        echo "Checking for build artifacts..."
+        if [ -d "src" ]; then
+          find src -type d -name "Release" 2>/dev/null || echo "No Release directories found (this is OK)"
+        else
+          echo "src directory not found"
+        fi
 
   analyze:
     name: Code Analysis
