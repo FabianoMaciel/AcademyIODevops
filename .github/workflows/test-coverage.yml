@@ -1,0 +1,180 @@
+name: Test Coverage
+
+on:
+  push:
+    branches: [ master, develop, main ]
+  pull_request:
+    branches: [ master, develop, main ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  COVERAGE_THRESHOLD: 5
+
+jobs:
+  test-coverage:
+    name: Generate Test Coverage
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore AcademyIODevops.sln
+
+    - name: 🏗️ Build solution
+      run: dotnet build AcademyIODevops.sln --configuration Release --no-restore
+
+    - name: 🧪 Run tests with coverage
+      run: |
+        dotnet test AcademyIODevops.sln \
+          --configuration Release \
+          --no-build \
+          --verbosity normal \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./coverage
+
+    - name: 📊 Generate coverage report
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
+      with:
+        reports: 'coverage/**/coverage.cobertura.xml'
+        targetdir: 'coveragereport'
+        reporttypes: 'Html;JsonSummary;Badges;MarkdownSummaryGithub'
+        assemblyfilters: '+*'
+        classfilters: '+*;-*.Migrations;-*.Program;-*.Startup'
+        filefilters: '+*'
+        verbosity: 'Info'
+        title: 'AcademyIODevops Code Coverage'
+        tag: '${{ github.run_number }}_${{ github.run_id }}'
+
+    - name: 📈 Add coverage summary to PR
+      if: github.event_name == 'pull_request'
+      run: |
+        cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+    - name: 📤 Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coveragereport/
+        retention-days: 30
+
+    - name: 🎯 Check coverage threshold
+      run: |
+        COVERAGE=$(jq -r '.summary.linecoverage' coveragereport/Summary.json)
+        echo "Current coverage: $COVERAGE%"
+        echo "Threshold: ${{ env.COVERAGE_THRESHOLD }}%"
+
+        if (( $(echo "$COVERAGE < ${{ env.COVERAGE_THRESHOLD }}" | bc -l) )); then
+          echo "❌ Coverage $COVERAGE% is below threshold ${{ env.COVERAGE_THRESHOLD }}%"
+          echo "## ⚠️ Coverage Below Threshold" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Current coverage: **$COVERAGE%**" >> $GITHUB_STEP_SUMMARY
+          echo "Required threshold: **${{ env.COVERAGE_THRESHOLD }}%**" >> $GITHUB_STEP_SUMMARY
+          exit 1
+        else
+          echo "✅ Coverage $COVERAGE% meets threshold"
+          echo "## ✅ Coverage Check Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Current coverage: **$COVERAGE%**" >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: 📊 Comment coverage on PR
+      if: github.event_name == 'pull_request'
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: coverage
+        path: coveragereport/SummaryGithub.md
+
+  coverage-by-project:
+    name: Coverage by Project
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        project:
+          - 'AcademyIODevops.Courses.API.Tests'
+          # Adicione outros projetos de teste aqui quando implementados
+          # - 'AcademyIODevops.Auth.API.Tests'
+          # - 'AcademyIODevops.Payments.API.Tests'
+          # - 'AcademyIODevops.Students.API.Tests'
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore tests/${{ matrix.project }}/${{ matrix.project }}.csproj
+
+    - name: 🧪 Run tests for ${{ matrix.project }}
+      run: |
+        dotnet test tests/${{ matrix.project }}/${{ matrix.project }}.csproj \
+          --configuration Release \
+          --verbosity normal \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./coverage-${{ matrix.project }}
+
+    - name: 📤 Upload coverage for ${{ matrix.project }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-${{ matrix.project }}
+        path: coverage-${{ matrix.project }}/
+        retention-days: 7
+
+  coverage-badge:
+    name: Update Coverage Badge
+    runs-on: ubuntu-latest
+    needs: test-coverage
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 📥 Download coverage report
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage-report
+        path: coveragereport
+
+    - name: 🎨 Create coverage badge
+      run: |
+        COVERAGE=$(jq -r '.summary.linecoverage' coveragereport/Summary.json)
+        COLOR="red"
+        if (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+          COLOR="brightgreen"
+        elif (( $(echo "$COVERAGE >= 70" | bc -l) )); then
+          COLOR="yellow"
+        elif (( $(echo "$COVERAGE >= 60" | bc -l) )); then
+          COLOR="orange"
+        fi
+
+        echo "Coverage: $COVERAGE%"
+        echo "Badge color: $COLOR"
+
+        # Você pode usar isso com shields.io endpoint ou gist
+        echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+        echo "BADGE_COLOR=$COLOR" >> $GITHUB_ENV
+
+    - name: 📊 Summary
+      run: |
+        echo "## 📊 Coverage Badge Updated" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Coverage: **${{ env.COVERAGE }}%**" >> $GITHUB_STEP_SUMMARY
+        echo "Badge color: **${{ env.BADGE_COLOR }}**" >> $GITHUB_STEP_SUMMARY
