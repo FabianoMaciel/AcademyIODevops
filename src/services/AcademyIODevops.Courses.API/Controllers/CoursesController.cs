@@ -128,7 +128,6 @@ namespace AcademyIODevops.Courses.API.Controllers
                                                         paymentViewModel.CardCVV);
             try
             {
-                
                 return await _bus.RequestAsync<PaymentRegisteredIntegrationEvent, ResponseMessage>(paymentRegistered);
             }
             catch (Exception)
