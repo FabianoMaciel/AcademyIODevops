@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AcademyIODevops.MessageBus;
 using AcademyIODevops.Core.Utils;
+using AcademyIODevops.Payments.API.Services;
 
 namespace AcademyIODevops.Payments.API.Configuration
 {
@@ -10,6 +11,7 @@ namespace AcademyIODevops.Payments.API.Configuration
             IConfiguration configuration)
         {
             services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"));
+            services.AddHostedService<PaymentRequestedIntegrationHandler>();
         }
     }
 }

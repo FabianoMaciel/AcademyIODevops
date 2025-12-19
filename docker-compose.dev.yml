@@ -1,0 +1,254 @@
+version: '3.8'
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-academyio-dev
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "AcademyIO!Password"
+      MSSQL_PID: "Developer"
+    volumes:
+      - sqlserver_dev_data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "AcademyIO!Password" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - academyio-dev
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbit-academyio-dev
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_dev_data:/var/lib/rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - academyio-dev
+
+  auth-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: auth-api-dev
+    ports:
+      - "5077:5077"
+      - "5177:5177"  # Porta para debug
+    environment:
+      ASPNETCORE_URLS: http://+:5077
+      ASPNETCORE_ENVIRONMENT: Development
+
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Auth;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+
+      # Hot reload
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: "true"
+    volumes:
+      # Monta o código fonte para hot-reload
+      - ./src:/src
+      # Cache do NuGet para acelerar restore
+      - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages
+      # Mantém os obj e bin no container (performance)
+      - auth-api-obj:/src/services/AcademyIODevops.Auth.API/obj
+      - auth-api-bin:/src/services/AcademyIODevops.Auth.API/bin
+    working_dir: /src/services/AcademyIODevops.Auth.API
+    command: dotnet watch run --no-launch-profile --urls http://+:5077
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - academyio-dev
+
+  courses-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: courses-api-dev
+    ports:
+      - "5078:5078"
+      - "5178:5178"  # Porta para debug
+    environment:
+      ASPNETCORE_URLS: http://+:5078
+      ASPNETCORE_ENVIRONMENT: Development
+
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Courses;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+
+      # Hot reload
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: "true"
+    volumes:
+      - ./src:/src
+      - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages
+      - courses-api-obj:/src/services/AcademyIODevops.Courses.API/obj
+      - courses-api-bin:/src/services/AcademyIODevops.Courses.API/bin
+    working_dir: /src/services/AcademyIODevops.Courses.API
+    command: dotnet watch run --no-launch-profile --urls http://+:5078
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - academyio-dev
+
+  payments-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: payments-api-dev
+    ports:
+      - "5272:5272"
+      - "5372:5372"  # Porta para debug
+    environment:
+      ASPNETCORE_URLS: http://+:5272
+      ASPNETCORE_ENVIRONMENT: Development
+
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Payments;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+
+      # Hot reload
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: "true"
+    volumes:
+      - ./src:/src
+      - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages
+      - payments-api-obj:/src/services/AcademyIODevops.Payments.API/obj
+      - payments-api-bin:/src/services/AcademyIODevops.Payments.API/bin
+    working_dir: /src/services/AcademyIODevops.Payments.API
+    command: dotnet watch run --no-launch-profile --urls http://+:5272
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - academyio-dev
+
+  students-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: students-api-dev
+    ports:
+      - "5275:5275"
+      - "5375:5375"  # Porta para debug
+    environment:
+      ASPNETCORE_URLS: http://+:5275
+      ASPNETCORE_ENVIRONMENT: Development
+
+      # Database Configuration
+      DatabaseType: SqlServer
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=AcademyIO_Students;User Id=sa;Password=AcademyIO!Password;TrustServerCertificate=True"
+
+      # RabbitMQ Configuration
+      MessageQueueConnection__MessageBus: "host=rabbitmq:5672;username=guest;password=guest"
+
+      # Hot reload
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: "true"
+    volumes:
+      - ./src:/src
+      - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages
+      - students-api-obj:/src/services/AcademyIODevops.Students.API/obj
+      - students-api-bin:/src/services/AcademyIODevops.Students.API/bin
+    working_dir: /src/services/AcademyIODevops.Students.API
+    command: dotnet watch run --no-launch-profile --urls http://+:5275
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - academyio-dev
+
+  bff:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: bff-api-dev
+    ports:
+      - "5107:5107"
+      - "5207:5207"  # Porta para debug
+    environment:
+      ASPNETCORE_URLS: http://+:5107
+      ASPNETCORE_ENVIRONMENT: Development
+
+      # Services URLs (comunicação interna)
+      AppServicesSettings__CourseUrl: "http://courses-api:5078"
+      AppServicesSettings__StudentUrl: "http://students-api:5275"
+      AppServicesSettings__PaymentUrl: "http://payments-api:5272"
+      AppServicesSettings__AuthUrl: "http://auth-api:5077"
+
+      # Hot reload
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: "true"
+    volumes:
+      - ./src:/src
+      - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages
+      - bff-obj:/src/api-gateways/AcademyIODevops.Bff/obj
+      - bff-bin:/src/api-gateways/AcademyIODevops.Bff/bin
+    working_dir: /src/api-gateways/AcademyIODevops.Bff
+    command: dotnet watch run --no-launch-profile --urls http://+:5107
+    depends_on:
+      auth-api:
+        condition: service_started
+      courses-api:
+        condition: service_started
+      students-api:
+        condition: service_started
+      payments-api:
+        condition: service_started
+    networks:
+      - academyio-dev
+
+networks:
+  academyio-dev:
+    driver: bridge
+
+volumes:
+  sqlserver_dev_data:
+  rabbitmq_dev_data:
+  # Volumes para cache de build (melhor performance)
+  auth-api-obj:
+  auth-api-bin:
+  courses-api-obj:
+  courses-api-bin:
+  payments-api-obj:
+  payments-api-bin:
+  students-api-obj:
+  students-api-bin:
+  bff-obj:
+  bff-bin:
