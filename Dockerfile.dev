@@ -1,0 +1,30 @@
+# Dockerfile para desenvolvimento com hot-reload e debug
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+
+WORKDIR /src
+
+# Instala o debugger remoto do Visual Studio
+RUN apt-get update && apt-get install -y unzip && \
+    curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
+# Copia e compila os building-blocks primeiro
+# Isso evita conflitos quando múltiplos containers tentam compilar simultaneamente
+COPY src/building-blocks/ src/building-blocks/
+
+# Restaura e compila os building-blocks
+RUN dotnet restore "src/building-blocks/AcademyIODevops.Core/AcademyIODevops.Core.csproj" && \
+    dotnet build "src/building-blocks/AcademyIODevops.Core/AcademyIODevops.Core.csproj" -c Debug --no-restore
+
+RUN dotnet restore "src/building-blocks/AcademyIODevops.MessageBus/AcademyIODevops.MessageBus.csproj" && \
+    dotnet build "src/building-blocks/AcademyIODevops.MessageBus/AcademyIODevops.MessageBus.csproj" -c Debug --no-restore
+
+RUN dotnet restore "src/building-blocks/AcademyIODevops.WebAPI.Core/AcademyIODevops.WebAPI.Core.csproj" && \
+    dotnet build "src/building-blocks/AcademyIODevops.WebAPI.Core/AcademyIODevops.WebAPI.Core.csproj" -c Debug --no-restore
+
+# Os serviços (APIs) serão montados via volume para permitir hot-reload
+
+# Porta padrão para o debugger
+EXPOSE 5000-6000
+
+# Comando padrão (será sobrescrito no docker-compose)
+CMD ["dotnet", "watch", "run", "--no-launch-profile"]

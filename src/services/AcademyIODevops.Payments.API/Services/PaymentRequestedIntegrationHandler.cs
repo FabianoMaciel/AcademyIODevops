@@ -22,7 +22,6 @@ namespace AcademyIODevops.Payments.API.Services
 
         private void RegisterResponder()
         {
-          
             // Garante que só registra uma vez (evita duplicação)
             if (_responderRegistered)
                 return;
@@ -39,12 +38,27 @@ namespace AcademyIODevops.Payments.API.Services
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Console.WriteLine("[Handler] ExecuteAsync iniciado");
+
+            if (_bus?.AdvancedBus == null)
+            {
+                Console.WriteLine("[Handler] ERRO: AdvancedBus é null!");
+                return Task.CompletedTask;
+            }
+
+            Console.WriteLine($"[Handler] AdvancedBus IsConnected: {_bus.AdvancedBus.IsConnected}");
+
             _bus.AdvancedBus.Connected += OnConnect;
 
             // Se o bus já estiver conectado, registramos imediatamente
             if (_bus.AdvancedBus.IsConnected)
             {
+                Console.WriteLine("[Handler] Bus já conectado, registrando responder imediatamente");
                 RegisterResponder();
+            }
+            else
+            {
+                Console.WriteLine("[Handler] Bus não conectado, aguardando evento Connected");
             }
 
             return Task.CompletedTask;
