@@ -66,8 +66,6 @@ academyio/
 │   │       └── 📁 AcademyIO.Students.API/ # 👥 Gestão de alunos e matrículas
 │   │
 │   ├── 📁 Tests/                           # 🧪 Projetos de testes automatizados
-│   │
-│   └── 📁 Web/                             # 🌐 Aplicação frontend (Angular)
 │
 ├── 📄 README.md                            # 📖 Documentação principal
 ├── 📄 FEEDBACK.md                          # 💬 Feedback do instrutor
