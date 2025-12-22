@@ -37,7 +37,7 @@ Construído com uma abordagem baseada em microsserviços e princípios de **Doma
 
 **Documentação:**
 
-- Swagger/OpenAPI – disponível em `http://localhost:5005/swagge`
+- Swagger/OpenAPI – disponível em `http://localhost:5107/swagger`
 
 ### 📂 Estrutura do Projeto
 
@@ -88,7 +88,58 @@ academyio/
 
 ```
 git clone https://github.com/ProfinProject/AcademyIO.git
+cd AcademyIODevops
 ```
+
+### 🚀 Método Rápido: Docker Compose (Recomendado)
+
+Este método inicia **todos os serviços** (SQL Server, RabbitMQ e todos os microservices) com um único comando:
+
+```bash
+# Inicie todos os serviços
+docker-compose up -d
+
+# Acompanhe os logs (opcional)
+docker-compose logs -f
+
+# Verifique o status dos containers
+docker-compose ps
+```
+
+**Serviços disponíveis após o start:**
+
+| Serviço | Endpoint | Descrição |
+|---------|----------|-----------|
+| **BFF/API Gateway** | http://localhost:5107 | Ponto de entrada único |
+| **Swagger UI** | http://localhost:5107/swagger | Documentação da API |
+| **Auth API** | http://localhost:5077 | Autenticação |
+| **Courses API** | http://localhost:5078 | Gestão de cursos |
+| **Payments API** | http://localhost:5272 | Pagamentos |
+| **Students API** | http://localhost:5275 | Alunos e matrículas |
+| **RabbitMQ UI** | http://localhost:15672 | Management (guest/guest) |
+| **SQL Server** | localhost:1433 | Database (sa/AcademyIO!Password) |
+
+**Comandos úteis:**
+
+```bash
+# Parar todos os serviços
+docker-compose down
+
+# Parar e remover volumes (limpar dados)
+docker-compose down -v
+
+# Recriar containers após mudanças no código
+docker-compose up -d --build
+
+# Ver logs de um serviço específico
+docker-compose logs -f auth-api
+```
+
+---
+
+### 💻 Método Manual: Execução Local
+
+Se preferir executar os microservices manualmente (sem Docker para as APIs):
 
 #### 2️⃣ Configure o Banco de Dados
 
@@ -125,8 +176,8 @@ O projeto é composto por vários microsserviços e um **BFF (Backend for Fronte
 
 ⚠️ Certifique-se de que o **RabbitMQ** está rodando (veja seção 3 — Mensageria).
 
-A documentação Swagger estará disponível em:  
-🔗 [http://localhost:5005/swagger](http://localhost:5005/swagger)
+A documentação Swagger estará disponível em:
+🔗 [http://localhost:5107/swagger](http://localhost:5107/swagger)
 
 #### 💻 **Opção 2: Via CLI (Command Line Interface)**
 
