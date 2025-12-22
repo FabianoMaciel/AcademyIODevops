@@ -159,26 +159,6 @@ Ambas as abordagens exigem que:
 - O **banco de dados** esteja configurado corretamente (SQL Server ou SQLite).
 - O **RabbitMQ** esteja em execução (caso utilize funcionalidades baseadas em mensageria).
 
-#### 5️⃣ Execute o Frontend (Angular) Terminal
-
-Pasta do Projeto:
-```
-cd src/Front-End
-```
-
-Instalar Dependências:
-```
-npm install --legacy-peer-deps
-```
-
-Inicializar Aplicação:
-```
-npm start
-```
-
-A aplicação frontend estará disponível em:  
-🌐 [http://localhost:4200](http://localhost:4200/)
-
 ## 👥 Credenciais de Acesso
 
 | Perfil         | Nome        | E-mail                 | Senha       |
