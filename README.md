@@ -81,7 +81,6 @@ academyio/
 - [.NET SDK 8.0 ou superior](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [SQL Server ou SQLite](https://www.sqlite.org/index.html)
 - [Git](https://git-scm.com/)
-- [Node.js (v18 ou superior)](https://nodejs.org/) — necessário para o frontend Angular
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (com WSL2 habilitado, se estiver no Windows) — necessário para o RabbitMQ e Portainer
 ### 💻 Passos para Execução
 
