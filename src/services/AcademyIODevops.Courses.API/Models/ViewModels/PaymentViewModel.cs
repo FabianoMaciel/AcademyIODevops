@@ -1,5 +1,8 @@
-﻿namespace AcademyIODevops.Courses.API.Models.ViewModels
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AcademyIODevops.Courses.API.Models.ViewModels
 {
+    [ExcludeFromCodeCoverage]
     public class PaymentViewModel
     {
         public string CardName { get; set; }

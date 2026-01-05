@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AcademyIODevops.Core.Extensions;
 using AcademyIODevops.Core.Messages;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace AcademyIODevops.Payments.API.Data;
 
+[ExcludeFromCodeCoverage]
 public class PaymentsContext(DbContextOptions<PaymentsContext> options, IMediator mediator) : DbContext(options), IUnitOfWork
 {
     public DbSet<Payment> Payments { get; set; }
@@ -55,6 +57,7 @@ public class PaymentsContext(DbContextOptions<PaymentsContext> options, IMediato
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
 {
     public void Configure(EntityTypeBuilder<Payment> builder)
@@ -84,6 +87,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)

@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AcademyIODevops.Core.Messages;
 using AcademyIODevops.Core.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Courses.API.Data
 {
+    [ExcludeFromCodeCoverage]
     public class CoursesContext(DbContextOptions<CoursesContext> options,
                                     IMediator mediator) : DbContext(options), IUnitOfWork
     {
@@ -58,6 +60,7 @@ namespace AcademyIODevops.Courses.API.Data
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class CourseConfiguration : IEntityTypeConfiguration<Course>
     {
         public void Configure(EntityTypeBuilder<Course> builder)
@@ -73,6 +76,7 @@ namespace AcademyIODevops.Courses.API.Data
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
     {
         public void Configure(EntityTypeBuilder<Lesson> builder)
@@ -88,6 +92,7 @@ namespace AcademyIODevops.Courses.API.Data
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class ProgressLessonsConfiguration : IEntityTypeConfiguration<ProgressLesson>
     {
         public void Configure(EntityTypeBuilder<ProgressLesson> builder)

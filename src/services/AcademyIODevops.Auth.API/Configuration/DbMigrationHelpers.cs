@@ -2,9 +2,11 @@
 using AcademyIODevops.Core.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Auth.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class DbMigrationHelpers
     {
         public static async Task UseDbMigrationHelperAsync(this WebApplication app)

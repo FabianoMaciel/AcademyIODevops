@@ -1,5 +1,8 @@
-﻿namespace AcademyIODevops.Courses.API.Application.Queries.ViewModels
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AcademyIODevops.Courses.API.Application.Queries.ViewModels
 {
+    [ExcludeFromCodeCoverage]
     public class CourseViewModel
     {
         public Guid Id { get; set; }

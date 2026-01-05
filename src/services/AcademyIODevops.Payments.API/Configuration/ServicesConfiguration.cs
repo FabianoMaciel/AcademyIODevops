@@ -5,9 +5,11 @@ using AcademyIODevops.Payments.API.Application.Query;
 using AcademyIODevops.Payments.API.Business;
 using AcademyIODevops.Payments.API.Data.Repository;
 using AcademyIODevops.WebAPI.Core.User;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Payments.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class ServicesConfiguration
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)

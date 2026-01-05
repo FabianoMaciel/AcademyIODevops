@@ -3,7 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AcademyIODevops.Courses.API.Configuration
-{    
+{
+    [ExcludeFromCodeCoverage]
     public static class SwaggerConfig
     {
         public static void AddSwaggerConfiguration(this IServiceCollection services)

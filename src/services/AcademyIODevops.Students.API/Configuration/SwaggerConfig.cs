@@ -1,8 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AcademyIODevops.Students.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class SwaggerConfig
     {
         public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)

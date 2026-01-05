@@ -5,9 +5,11 @@ using AcademyIODevops.Courses.API.Application.Queries;
 using AcademyIODevops.Courses.API.Data.Repository;
 using AcademyIODevops.Courses.API.Models;
 using AcademyIODevops.WebAPI.Core.User;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Courses.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class ServicesConfiguration
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
