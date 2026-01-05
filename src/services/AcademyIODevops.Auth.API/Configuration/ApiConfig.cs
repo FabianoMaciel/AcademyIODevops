@@ -1,9 +1,10 @@
 ﻿using AcademyIODevops.WebAPI.Core.Configuration;
 using AcademyIODevops.WebAPI.Core.User;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Auth.API.Configuration
 {
-
+    [ExcludeFromCodeCoverage]
     public static class ApiConfig
     {
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.OpenApi.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Payments.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class SwaggerConfig
     {
         public static void AddSwaggerConfiguration(this IServiceCollection services)

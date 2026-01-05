@@ -2,12 +2,14 @@
 using AcademyIODevops.WebAPI.Core.DatabaseFlavor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 using static AcademyIODevops.WebAPI.Core.DatabaseFlavor.ProviderConfiguration;
 
 
 namespace AcademyIODevops.Auth.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class IdentityConfig
     {
         public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services,

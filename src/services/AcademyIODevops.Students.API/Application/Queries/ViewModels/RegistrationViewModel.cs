@@ -1,7 +1,9 @@
 ﻿using AcademyIODevops.Core.Enums;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Students.API.Application.Queries.ViewModels
 {
+    [ExcludeFromCodeCoverage]
     public class RegistrationViewModel
     {
         public Guid Id { get; set; }

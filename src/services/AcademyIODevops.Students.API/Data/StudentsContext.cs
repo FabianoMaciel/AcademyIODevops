@@ -6,9 +6,11 @@ using AcademyIODevops.Core.Data;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using AcademyIODevops.Students.API.Models;
 using AcademyIODevops.Core.Messages;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Students.API.Data
 {
+    [ExcludeFromCodeCoverage]
     public class StudentsContext : DbContext, IUnitOfWork
     {
         public StudentsContext(DbContextOptions<StudentsContext> options) : base(options) { }
@@ -47,6 +49,8 @@ namespace AcademyIODevops.Students.API.Data
             return await base.SaveChangesAsync() > 0;
         }
     }
+
+    [ExcludeFromCodeCoverage]
     public class StudentUserConfiguration : IEntityTypeConfiguration<StudentUser>
     {
         public void Configure(EntityTypeBuilder<StudentUser> builder)
@@ -56,6 +60,7 @@ namespace AcademyIODevops.Students.API.Data
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class CertificationConfiguration : IEntityTypeConfiguration<Certification>
     {
         public void Configure(EntityTypeBuilder<Certification> builder)
@@ -70,6 +75,7 @@ namespace AcademyIODevops.Students.API.Data
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class RegistrationConfiguration : IEntityTypeConfiguration<Registration>
     {
         public void Configure(EntityTypeBuilder<Registration> builder)

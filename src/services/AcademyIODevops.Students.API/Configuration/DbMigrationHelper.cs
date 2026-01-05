@@ -2,9 +2,11 @@
 using AcademyIODevops.Students.API.Data;
 using AcademyIODevops.Students.API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Students.API.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class DbMigrationHelperExtension
     {
         public static async Task UseDbMigrationHelperAsync(this WebApplication app)
@@ -13,6 +15,7 @@ namespace AcademyIODevops.Students.API.Configuration
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public static class DbMigrationHelper
     {
         public static async Task EnsureSeedData(WebApplication application)
