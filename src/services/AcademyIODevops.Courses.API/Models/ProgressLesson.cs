@@ -1,8 +1,10 @@
 ﻿using AcademyIODevops.Core.DomainObjects;
 using AcademyIODevops.Core.Enums;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Courses.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class ProgressLesson : Entity, IAggregateRoot
     {
         public ProgressLesson(Guid lessonId, Guid studentId, EProgressLesson progressLesson)

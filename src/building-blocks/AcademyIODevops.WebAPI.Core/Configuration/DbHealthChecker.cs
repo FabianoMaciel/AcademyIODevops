@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using AcademyIODevops.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcademyIODevops.WebAPI.Core.Configuration;
 
+[ExcludeFromCodeCoverage]
 public class DbHealthChecker
 {
     public static async Task TestConnection(DbContext context)

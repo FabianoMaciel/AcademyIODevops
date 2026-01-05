@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AcademyIODevops.Core.DomainObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Core.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class MediatorExtension
 {
     public static async Task PublishDomainEvents(this IMediator mediator, DbContext context)

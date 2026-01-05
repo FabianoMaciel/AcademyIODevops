@@ -1,4 +1,5 @@
 ﻿using AcademyIODevops.Core.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Payments.API.Business;
 

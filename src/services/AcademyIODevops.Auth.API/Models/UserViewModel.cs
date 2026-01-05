@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Auth.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class UserViewModel
     {
+        [ExcludeFromCodeCoverage]
         public class RegisterUserViewModel
         {
             [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -33,6 +36,7 @@ namespace AcademyIODevops.Auth.API.Models
             public string ConfirmPassword { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class LoginUserViewModel
         {
             [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -44,6 +48,7 @@ namespace AcademyIODevops.Auth.API.Models
             public string Password { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class UserTokenViewModel
         {
             public string Id { get; set; }
@@ -51,6 +56,7 @@ namespace AcademyIODevops.Auth.API.Models
             public IEnumerable<ClaimViewModel> Claims { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class LoginResponseViewModel
         {
             public string AccessToken { get; set; }
@@ -58,12 +64,14 @@ namespace AcademyIODevops.Auth.API.Models
             public UserTokenViewModel UserToken { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class LoginResponseTestViewModel
         {
             public bool Success { get; set; }
             public LoginResponseViewModel Data { get; set; } = new();
         }
 
+        [ExcludeFromCodeCoverage]
         public class ClaimViewModel
         {
             public string Value { get; set; }

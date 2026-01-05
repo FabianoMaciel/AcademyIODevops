@@ -1,8 +1,11 @@
-﻿using AcademyIODevops.WebAPI.Core.User;
+using AcademyIODevops.WebAPI.Core.User;
 using System.Net.Http.Headers;
+ using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Bff.Extensions
 {
+    [ExcludeFromCodeCoverage]
+
     public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
     {
         private readonly IAspNetUser _aspNetUser;

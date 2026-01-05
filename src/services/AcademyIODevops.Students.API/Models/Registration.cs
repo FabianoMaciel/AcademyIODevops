@@ -1,8 +1,10 @@
 ﻿using AcademyIODevops.Core.Enums;
 using AcademyIODevops.Core.DomainObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Students.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Registration : Entity
     {
         public Guid StudentId { get; set; }

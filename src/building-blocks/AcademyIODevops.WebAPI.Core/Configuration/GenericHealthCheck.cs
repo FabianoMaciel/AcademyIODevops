@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Diagnostics.CodeAnalysis;
 using static AcademyIODevops.WebAPI.Core.DatabaseFlavor.ProviderConfiguration;
 
 namespace AcademyIODevops.WebAPI.Core.Configuration;
 
+[ExcludeFromCodeCoverage]
 public static class GenericHealthCheck
 {
     public static IHealthChecksBuilder AddDefaultHealthCheck(

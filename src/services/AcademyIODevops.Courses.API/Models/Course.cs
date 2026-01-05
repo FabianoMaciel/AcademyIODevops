@@ -1,7 +1,9 @@
 ﻿using AcademyIODevops.Core.DomainObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Courses.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class Course : Entity, IAggregateRoot
     {
         public Course() : base()

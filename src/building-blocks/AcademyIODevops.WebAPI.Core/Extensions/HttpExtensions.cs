@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NetDevPack.Utilities;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AcademyIODevops.WebAPI.Core.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class HttpExtensions
     {
         public static IHttpClientBuilder AllowSelfSignedCertificate(this IHttpClientBuilder builder)
