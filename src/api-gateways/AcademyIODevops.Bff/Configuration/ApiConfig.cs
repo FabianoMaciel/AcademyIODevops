@@ -1,8 +1,10 @@
 ﻿using AcademyIODevops.Bff.Extensions;
 using AcademyIODevops.WebAPI.Core.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Bff.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class ApiConfig
     {
         public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)

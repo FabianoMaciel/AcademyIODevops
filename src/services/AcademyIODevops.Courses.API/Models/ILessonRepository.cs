@@ -1,5 +1,6 @@
 ﻿using AcademyIODevops.Core.Data;
 using AcademyIODevops.Core.Enums;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Courses.API.Models
 {

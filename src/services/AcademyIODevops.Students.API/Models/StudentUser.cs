@@ -1,7 +1,9 @@
 ﻿using AcademyIODevops.Core.DomainObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Students.API.Models
 {
+    [ExcludeFromCodeCoverage]
     public class StudentUser : Entity, IAggregateRoot
     {
         public StudentUser(Guid id, string userName, string firstName, string lastName, string email, DateTime dateOfBirth, bool isAdmin)

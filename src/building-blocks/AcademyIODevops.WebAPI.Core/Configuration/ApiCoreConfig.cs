@@ -7,10 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 using static AcademyIODevops.WebAPI.Core.DatabaseFlavor.ProviderConfiguration;
 
 namespace AcademyIODevops.WebAPI.Core.Configuration;
 
+[ExcludeFromCodeCoverage]
 public static class ApiCoreConfig
 {
     public static void AddLogger(this IServiceCollection services, IConfiguration configuration)

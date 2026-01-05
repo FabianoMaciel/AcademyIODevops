@@ -1,6 +1,9 @@
 using AcademyIODevops.WebAPI.Core.Configuration;
 using AcademyIODevops.WebAPI.Core.Identity;
 using AcademyIODevops.Students.API.Configuration;
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: ExcludeFromCodeCoverage]
 
 var builder = WebApplication.CreateBuilder(args);
 

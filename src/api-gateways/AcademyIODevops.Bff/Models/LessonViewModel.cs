@@ -1,5 +1,8 @@
-﻿namespace AcademyIODevops.Bff.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AcademyIODevops.Bff.Models
 {
+    [ExcludeFromCodeCoverage]
     public class LessonViewModel
     {
         public Guid Id { get; set; }

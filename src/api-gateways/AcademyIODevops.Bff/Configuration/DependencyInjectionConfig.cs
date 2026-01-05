@@ -3,10 +3,12 @@ using AcademyIODevops.Bff.Services;
 using AcademyIODevops.WebAPI.Core.Extensions;
 using AcademyIODevops.WebAPI.Core.User;
 using Polly;
+using System.Diagnostics.CodeAnalysis;
 
 
 namespace AcademyIODevops.Bff.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public static class DependencyInjectionConfig
     {
         public static void RegisterServices(this IServiceCollection services)

@@ -1,5 +1,6 @@
 ﻿using AcademyIODevops.Core.Data;
 using AcademyIODevops.Core.DomainObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Students.API.Models
 {

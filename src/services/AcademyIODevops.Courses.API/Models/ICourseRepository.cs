@@ -1,5 +1,5 @@
 ﻿using AcademyIODevops.Core.Data;
-using YamlDotNet.Core;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Courses.API.Models
 {

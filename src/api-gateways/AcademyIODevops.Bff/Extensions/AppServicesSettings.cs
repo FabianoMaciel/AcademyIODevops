@@ -1,5 +1,9 @@
-﻿namespace AcademyIODevops.Bff.Extensions
+using System.Diagnostics.CodeAnalysis;
+
+namespace AcademyIODevops.Bff.Extensions
 {
+    [ExcludeFromCodeCoverage]
+
     public class AppServicesSettings
     {
         public string CourseUrl { get; set; }
