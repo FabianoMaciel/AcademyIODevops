@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ namespace AcademyIODevops.WebAPI.Core.DatabaseFlavor;
 /// <summary>
 ///     SqlServer configuration
 /// </summary>
+[ExcludeFromCodeCoverage]
 public static class ContextConfiguration
 {
     /// <summary>

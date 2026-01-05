@@ -1,5 +1,8 @@
-﻿namespace AcademyIODevops.Core.Utils
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AcademyIODevops.Core.Utils
 {
+    [ExcludeFromCodeCoverage]
     public static class SeedStudentUserData
     {
         public static readonly Guid AdminUserId = Guid.Parse("11111111-1111-1111-1111-111111111111");
@@ -14,5 +17,6 @@
         };
     }
 
+    [ExcludeFromCodeCoverage]
     public record InitialUser(Guid Id, string FirstName, string LastName, string Email, string Password, DateTime DateOfBirth, bool IsAdmin);
 }
