@@ -20,7 +20,7 @@ namespace AcademyIODevops.Courses.API.Data.Repository
 
         public async Task<IEnumerable<Course>> GetAll()
         {
-            return await _dbSet.AsNoTracking().ToListAsync();
+            return await _dbSet.Where(a => !a.Deleted).AsNoTracking().ToListAsync();
         }
 
         public async Task<Course> GetById(Guid courseId)
