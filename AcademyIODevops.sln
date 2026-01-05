@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademyIODevops.Students.AP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademyIODevops.Auth.API.Tests", "tests\AcademyIODevops.Auth.API.Tests\AcademyIODevops.Auth.API.Tests.csproj", "{EF715BDD-32D7-42AA-8F35-631CAA4828A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademyIODevops.Payments.API.Tests", "tests\AcademyIODevops.Payments.API.Tests\AcademyIODevops.Payments.API.Tests.csproj", "{3A66F347-1389-4000-B5DF-2AC563833FAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{EF715BDD-32D7-42AA-8F35-631CAA4828A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF715BDD-32D7-42AA-8F35-631CAA4828A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF715BDD-32D7-42AA-8F35-631CAA4828A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A66F347-1389-4000-B5DF-2AC563833FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A66F347-1389-4000-B5DF-2AC563833FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A66F347-1389-4000-B5DF-2AC563833FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A66F347-1389-4000-B5DF-2AC563833FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{69068E43-F811-46E5-A0F2-3F32F13DC04D} = {77E19C76-66B3-43A5-A8C0-F442516B3F5C}
 		{302D1017-AF1B-49EB-9D37-0D1A36574822} = {77E19C76-66B3-43A5-A8C0-F442516B3F5C}
 		{EF715BDD-32D7-42AA-8F35-631CAA4828A3} = {77E19C76-66B3-43A5-A8C0-F442516B3F5C}
+		{3A66F347-1389-4000-B5DF-2AC563833FAE} = {77E19C76-66B3-43A5-A8C0-F442516B3F5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E41895A6-62E2-44CE-A53D-4A1DBA16DD78}
