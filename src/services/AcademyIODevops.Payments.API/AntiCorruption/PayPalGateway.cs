@@ -1,7 +1,9 @@
 ﻿using AcademyIODevops.Payments.API.Business;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Payments.API.AntiCorruption;
 
+[ExcludeFromCodeCoverage]
 public class PayPalGateway : IPayPalGateway
 {
     public string GetPayPalServiceKey(string apiKey, string encriptionKey)

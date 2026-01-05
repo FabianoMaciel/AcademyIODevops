@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Core.Messages.Notifications;
 
+[ExcludeFromCodeCoverage]
 public class DomainNotificationHandler : INotificationHandler<DomainNotification>
 {
     private List<DomainNotification> _notifications;

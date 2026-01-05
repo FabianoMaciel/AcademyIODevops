@@ -1,6 +1,9 @@
-﻿namespace AcademyIODevops.Core.Exceptions
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AcademyIODevops.Core.Exceptions
 {
     [Serializable]
+    [ExcludeFromCodeCoverage]
     public class DatabaseNotFoundException : Exception
     {
         public DatabaseNotFoundException()

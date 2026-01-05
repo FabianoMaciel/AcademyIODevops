@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace AcademyIODevops.WebAPI.Core.DatabaseFlavor;
 
+[ExcludeFromCodeCoverage]
 public class ProviderConfiguration
 {
     private static readonly string MigrationAssembly =

@@ -1,8 +1,10 @@
 ﻿using AcademyIODevops.Core.Messages;
 using MediatR;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Core.Bus
 {
+    [ExcludeFromCodeCoverage]
     public class MediatrHandler : IMediatorHandler
     {
         private readonly IMediator _mediator;
