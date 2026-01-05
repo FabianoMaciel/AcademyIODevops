@@ -50,6 +50,7 @@ public class PaymentsContext(DbContextOptions<PaymentsContext> options, IMediato
             if (entityEntry.State == EntityState.Deleted)
             {
                 entityEntry.State = EntityState.Modified;
+                entityEntry.Property("Deleted").CurrentValue = true;
                 entityEntry.Property("CreatedDate").IsModified = false;
             }
         }
