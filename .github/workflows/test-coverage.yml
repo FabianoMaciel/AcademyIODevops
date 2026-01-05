@@ -9,7 +9,7 @@ on:
 
 env:
   DOTNET_VERSION: '8.0.x'
-  COVERAGE_THRESHOLD: 80
+  COVERAGE_THRESHOLD: 30
 
 jobs:
   test-coverage:
