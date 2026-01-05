@@ -14,7 +14,6 @@ namespace AcademyIODevops.Payments.API.Migrations
 {
     [DbContext(typeof(PaymentsContext))]
     [Migration("20251217135555_InitialSqlServer")]
-    [ExcludeFromCodeCoverage]
     partial class InitialSqlServer
     {
         /// <inheritdoc />
