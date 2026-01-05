@@ -2,9 +2,6 @@ using AcademyIODevops.Bff.Configuration;
 using AcademyIODevops.Bff.Extensions;
 using AcademyIODevops.WebAPI.Core.Identity;
 using Serilog;
-using System.Diagnostics.CodeAnalysis;
-
-[assembly: ExcludeFromCodeCoverage]
 
 var builder = WebApplication.CreateBuilder(args);
 
