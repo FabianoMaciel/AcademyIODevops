@@ -99,9 +99,9 @@ jobs:
 
     - name: 🧪 Check if tests were added
       run: |
-        TEST_FILES_CHANGED=${{ steps.changed-files.outputs.all_changed_files }}
-        SRC_CHANGED=$(echo "$TEST_FILES_CHANGED" | grep -c "src/" || true)
-        TEST_CHANGED=$(echo "$TEST_FILES_CHANGED" | grep -c "tests/" || true)
+        TEST_FILES_CHANGED="${{ steps.changed-files.outputs.all_changed_files }}"
+        SRC_CHANGED=$(echo "$TEST_FILES_CHANGED" | tr ' ' '\n' | grep -c "src/" || true)
+        TEST_CHANGED=$(echo "$TEST_FILES_CHANGED" | tr ' ' '\n' | grep -c "tests/" || true)
 
         echo "## 🧪 Test Coverage Check" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
