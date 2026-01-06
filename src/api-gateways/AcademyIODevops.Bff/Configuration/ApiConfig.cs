@@ -1,6 +1,6 @@
-﻿using AcademyIODevops.Bff.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+using AcademyIODevops.Bff.Extensions;
 using AcademyIODevops.WebAPI.Core.Configuration;
-using System.Diagnostics.CodeAnalysis;
 
 namespace AcademyIODevops.Bff.Configuration
 {
@@ -23,11 +23,10 @@ namespace AcademyIODevops.Bff.Configuration
                             .AllowAnyHeader());
             });
 
-            //TO DO ???
-            //services.AddDefaultHealthCheck(configuration)
-            //    .AddUrlGroup(new Uri($"{configuration["CourseUrl"]}/healthz-infra"), "Shopping Cart", tags: new[] { "infra" }, configureHttpMessageHandler: _ => HttpExtensions.ConfigureClientHandler())
-            //    .AddUrlGroup(new Uri($"{configuration["StudentUrl"]}/healthz-infra"), "Catalog API", tags: new[] { "infra" }, configureHttpMessageHandler: _ => HttpExtensions.ConfigureClientHandler())
-            //    .AddUrlGroup(new Uri($"{configuration["PaymentUrl"]}/healthz-infra"), "Billing API", tags: new[] { "infra" }, configureHttpMessageHandler: _ => HttpExtensions.ConfigureClientHandler());
+            services.AddDefaultHealthCheck(configuration)
+                .AddUrlGroup(new Uri($"{configuration["AppServicesSettings:CourseUrl"]}/healthz-infra"), "Courses API", tags: new[] { "infra" })
+                .AddUrlGroup(new Uri($"{configuration["AppServicesSettings:StudentUrl"]}/healthz-infra"), "Students API", tags: new[] { "infra" })
+                .AddUrlGroup(new Uri($"{configuration["AppServicesSettings:PaymentUrl"]}/healthz-infra"), "Payments API", tags: new[] { "infra" });
         }
 
         public static void UseApiConfiguration(this WebApplication app, IWebHostEnvironment env)
@@ -52,7 +51,7 @@ namespace AcademyIODevops.Bff.Configuration
 
             app.MapControllers();
 
-            //app.UseDefaultHealthcheck();
+            app.UseDefaultHealthcheck();
         }
     }
 }
