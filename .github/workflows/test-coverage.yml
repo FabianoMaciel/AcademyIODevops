@@ -104,11 +104,14 @@ jobs:
     strategy:
       matrix:
         project:
+          - 'AcademyIODevops.Bff.Tests'
+          - 'AcademyIODevops.Auth.API.Tests'
           - 'AcademyIODevops.Courses.API.Tests'
-          # Adicione outros projetos de teste aqui quando implementados
-          # - 'AcademyIODevops.Auth.API.Tests'
-          # - 'AcademyIODevops.Payments.API.Tests'
-          # - 'AcademyIODevops.Students.API.Tests'
+          - 'AcademyIODevops.Payments.API.Tests'
+          - 'AcademyIODevops.Students.API.Tests'
+          - 'AcademyIODevops.Core.Tests'
+          - 'AcademyIODevops.MessageBus.Tests'
+          - 'AcademyIODevops.WebAPI.Core.Tests'
 
     steps:
     - name: 📥 Checkout code
